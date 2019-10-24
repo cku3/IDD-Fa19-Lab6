@@ -4,14 +4,14 @@
 }
 
 body {
-	background-color: #f0db4f;
+	background-color: #7fffd4;
 }
 
 h1, p {
-	font-family: sans-serif;
+	font-family: "Comic Sans MS";
 	text-align: center;
 	color: #323330;
-	font-size:  100px;
+	font-size:  80px;
 }
 
 
@@ -36,4 +36,10 @@ input {
     text-decoration: none;
     display: inline-block;
     font-size: 30px;
+}
+.center{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }

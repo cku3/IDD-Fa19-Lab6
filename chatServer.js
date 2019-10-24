@@ -10,7 +10,6 @@ var http = require('http').Server(app); // connects http library to server
 var io = require('socket.io')(http); // connect websocket library to server
 var serverPort = 8000;
 
-
 //---------------------- WEBAPP SERVER SETUP ---------------------------------//
 // use express to create the simple webapp
 app.use(express.static('public')); // find pages in public directory
@@ -30,7 +29,7 @@ io.on('connect', function(socket) {
   var questionNum = 0; // keep count of question, used for IF condition.
   socket.on('loaded', function() { // we wait until the client has loaded and contacted us that it is ready to go.
 
-    socket.emit('answer', "Hey, hello I am \"___*-\" a simple chat bot example."); //We start with the introduction;
+    socket.emit('answer', "Welcome :)"); //We start with the introduction;
     setTimeout(timedQuestion, 5000, socket, "What is your name?"); // Wait a moment and respond with a question.
 
   });
@@ -51,45 +50,67 @@ function bot(data, socket, questionNum) {
 
   /// These are the main statments that make up the conversation.
   if (questionNum == 0) {
-    answer = 'Hello ' + input + ' :-)'; // output response
+    answer = 'Hello ' + input + '!'; // output response
+    app.use(express.static('public'));
     waitTime = 5000;
-    question = 'How old are you?'; // load next question
+    question = 'let\'s play a game! you have five guesses to figure out who i am... sound good?'; // load next question
   } else if (questionNum == 1) {
-    answer = 'Really, ' + input + ' years old? So that means you were born in: ' + (2018 - parseInt(input)); // output response
+    answer = 'Great! Here is the first hint: I am something that became popular in the past decade';
     waitTime = 5000;
-    question = 'Where do you live?'; // load next question
+    question = 'Hint 2: You can see people scroll past me or show their friends. What am I?';
   } else if (questionNum == 2) {
-    answer = 'Cool! I have never been to ' + input + '.';
+    if (input == 'meme') {
+    questionNum = 7;
+    answer = 'Congratulations! You got it right! I am a memeeee.'
+    waitTime = 0;
+    app.use(express.static('public'));
+    question = '';
+    }
+    else {
+    answer = 'Oof! Not quite...';
     waitTime = 5000;
-    question = 'Whats your favorite color?'; // load next question
+    question = 'Hint 3: Sometimes I am embarrassing but it depends on the person'; // load next question
+    }
   } else if (questionNum == 3) {
-    answer = 'Ok, ' + input + ' it is.';
-    socket.emit('changeBG', input.toLowerCase());
+    if (input == 'meme') {
+    questionNum = 7;
+    answer = 'Congratulations! You got it right! I am a memeeee.'
+    waitTime = 000;
+    app.use(express.static('public'));
+    question = '';
+    }
+    else {
+    answer = 'Nope!';
     waitTime = 5000;
-    question = 'Can you still read the font?'; // load next question
+    question = 'Hint 4: People make references to me all the time'; // load next question
+    }
   } else if (questionNum == 4) {
-    if (input.toLowerCase() === 'yes' || input === 1) {
-      answer = 'Perfect!';
-      waitTime = 5000;
-      question = 'Whats your favorite place?';
-    } else if (input.toLowerCase() === 'no' || input === 0) {
-      socket.emit('changeFont', 'white'); /// we really should look up the inverse of what we said befor.
-      answer = ''
-      question = 'How about now?';
-      waitTime = 0;
-      questionNum--; // Here we go back in the question number this can end up in a loop
-    } else {
-      question = 'Can you still read the font?'; // load next question
-      answer = 'I did not understand you. Could you please answer "yes" or "no"?'
-      questionNum--;
-      waitTime = 5000;
+    if (input == 'meme') {
+    questionNum = 7;
+    answer = 'Congratulations! You got it right! I am a memeeee.'
+    waitTime = 0;
+    app.use(express.static('public'));
+    question = '';
+    }
+    else {
+    answer = 'Nah '+ input+ ' isn\'t it';
+    waitTime = 5000;
+    question = 'Last Hint: I am four letters'; // load next question
     }
     // load next question
   } else {
-    answer = 'I have nothing more to say!'; // output response
+    if (input == 'meme') {
+    questionNum = 7;
+    answer = 'Congratulations! You got it right! I am a memeeee.'
+    waitTime = 0;
+    app.use(express.static('public'));
+    question = '';
+    }
+    else {
+    answer = 'I don\'t have anymore clues! Sad... if you want to know you\'ll have to play again!'; // output response
     waitTime = 0;
     question = '';
-  }
+  }}
 
 
   /// We take the changed data and distribute it across the required objects.
